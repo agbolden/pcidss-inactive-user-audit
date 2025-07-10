@@ -1,47 +1,68 @@
-# PCI DSS 8.2.6 – Inactive User Account Audit
+# PCI DSS 8.2.6 – Inactive User Account Audit Lab
 
-This lab simulates a PCI DSS 8.2.6 compliance audit by identifying a user account that has not been used for over 90 days, which violates the requirement for timely account removal or disabling.
-
----
-
-## 🧠 Mock Interview Table
-
-| Interview Question | Stakeholder Response |
-|--------------------|----------------------|
-| How often do you review inactive accounts? | Reviews are not currently automated. |
-| Do you have a threshold (e.g., 90 days) for disabling unused accounts? | No formal process exists. |
-| Who is responsible for account reviews? | System administrator. |
-| Is there a tracking method for user last login data? | Not consistently monitored. |
+This lab simulates a real-world PCI DSS 8.2.6 control validation for identifying inactive user accounts in Active Directory. It includes a mock interview, simulated findings with screenshot evidence, and a remediation plan.
 
 ---
 
-## 🔍 Inactive Account Review Summary
+## 🧠 Mock Interview – Inactive User Accounts
 
-| Audit Task | Evidence |
-|------------|----------|
-| Created test user in Active Directory | ![Screenshot 01](screenshots/01_ADUC_NewInactiveUser_Creation.png) |
-| Verified general account properties | ![Screenshot 02](screenshots/02_ADUC_UserAccount_Properties_GeneralTab.png) |
-| Labeled account as inactive with description | ![Screenshot 03](screenshots/03_ADUC_UserAccount_Properties_DescriptionField.png) |
-| Reviewed object tab details | ![Screenshot 04](screenshots/04_ADUC_UserAccount_ObjectTab.png) |
-| Inspected lastLogonTimestamp (over 400 days ago) | ![Screenshot 05](screenshots/05_ADUC_UserAccount_AttributeEditor_LastLogonTimestamp.png) |
-| Confirmed account is still enabled (violation) | ![Screenshot 06](screenshots/06_ADUC_UserAccount_EnabledStatus.png) |
-| Reviewed group membership (still active) | ![Screenshot 07](screenshots/07_ADUC_UserAccount_GroupMembership.png) |
-| Validated password last set date (inactive) | ![Screenshot 08](screenshots/08_ADUC_UserAccount_PasswordLastSet.png) |
+| Question | Response |
+|----------|----------|
+| How do you identify inactive users in Active Directory? | We audit the `lastLogonTimestamp` and check for accounts with no login activity in the past 90+ days. |
+| What tools do you use for this process? | Active Directory Users and Computers (ADUC), PowerShell, and audit documentation. |
+| What’s the purpose of this control? | To reduce security risk by disabling unused accounts which could be exploited. |
+| What’s your process once an inactive user is found? | Document, verify, notify stakeholders, disable the account, and implement remediation. |
 
 ---
 
-## 🛠️ Remediation Plan
+## 🔍 Simulated Audit Findings
 
-- Disable or remove user accounts that have not logged in within the last 90 days.
-- Implement scheduled PowerShell scripts to audit `lastLogonTimestamp` monthly.
-- Add an automated task to alert on accounts exceeding inactivity thresholds.
-- Update the internal access review policy to align with PCI DSS 8.2.6.
+| Audit Task                                             | Evidence |
+|--------------------------------------------------------|----------|
+| Created test user in Active Directory                  | ![Screenshot 01](./01_PowerShell_Timestamp.png) |
+| Verified general account properties                    | ![Screenshot 02](./02_InactiveUser_Description_Edit.png) |
+| Labeled account as inactive with description           | ![Screenshot 03](./03_AD_Attribute_LastLogon_NotSet.png) |
+| Reviewed object tab details                            | ![Screenshot 04](./04_AD_Description_Set.png) |
+| Inspected lastLogonTimestamp (over 400 days ago)       | ![Screenshot 05](./05_AD_User_Visible.png) |
+| Confirmed account is still enabled (violation)         | ![Screenshot 06](./06_User_Disabled_Confirmation.png) |
+| Reviewed group membership (still active)               | ![Screenshot 07](./07_Group_Membership_Check.png) |
+| Validated password last set date (inactive)            | ![Screenshot 08](./08_Account_Disabled_Confirmation.png) |
 
 ---
 
-## ✅ Outcome
+## ✅ Remediation Plan
 
-This lab demonstrates an inactive user account that should have been disabled or removed per PCI DSS 8.2.6. Screenshots and findings reflect a real-world GRC process for compliance audits and remediation documentation.
+1. **Disable Inactive Account:**
+   - Account was manually disabled after 400+ days of inactivity.
+
+2. **Documentation:**
+   - Description field updated with inactivity status and simulated date.
+   - Findings logged and retained for audit trail.
+
+3. **Group Audit Follow-Up:**
+   - Membership reviewed; further cleanup planned to remove access.
+
+4. **Password Reset Enforcement:**
+   - A policy will be enforced to reset stale credentials if reactivated.
+
+5. **Prevention Control:**
+   - Set up automated PowerShell scripts to detect future inactive accounts.
+
+---
+
+## 📁 Lab Summary
+
+- ✅ Simulated real-world inactive user
+- ✅ Used PowerShell to calculate timestamp for 400+ days
+- ✅ Labeled and documented account in ADUC
+- ✅ Collected screenshots for audit proof
+- ✅ Wrote and implemented remediation
+
+---
+
+**Built by:** [@trucktotech](https://github.com/agbolden)
+
+**Lab Type:** PCI DSS 8.2.6 Compliance | Active Directory | Manual Audit | Screenshot Evidence
 
 
 
