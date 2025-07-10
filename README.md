@@ -1,58 +1,47 @@
-# PCI DSS 8.2.6 – Inactive User Account Audit Lab
+# PCI DSS 8.2.6 – Inactive User Account Audit
 
-This lab simulates a real-world PCI DSS 8.2.6 control validation for identifying inactive user accounts in Active Directory. It includes a mock interview, simulated findings, screenshots, and a remediation plan.
-
----
-
-## 🔍 Mock Interview – Inactive User Accounts
-
-| Question | Response |
-|----------|----------|
-| How often are inactive user accounts reviewed? | Quarterly |
-| What tools or scripts are used? | PowerShell, ADUC |
-| Is there a defined threshold for inactivity? | Yes, 90 days |
-| What action is taken on inactive accounts? | Accounts are disabled or deleted after 90 days of inactivity |
-| How is evidence of the review maintained? | Audit reports and screenshots stored in secured location |
+This lab simulates a PCI DSS 8.2.6 compliance audit by identifying a user account that has not been used for over 90 days, which violates the requirement for timely account removal or disabling.
 
 ---
 
-## 📋 Audit Findings – Inactive User Account
+## 🧠 Mock Interview Table
 
-| Finding | Description |
-|---------|-------------|
-| **Inactive User Not Disabled** | A test account (`InactiveUser01`) was found with no logon activity in the last 400+ days. This violates the organization’s inactive account policy. |
+| Interview Question | Stakeholder Response |
+|--------------------|----------------------|
+| How often do you review inactive accounts? | Reviews are not currently automated. |
+| Do you have a threshold (e.g., 90 days) for disabling unused accounts? | No formal process exists. |
+| Who is responsible for account reviews? | System administrator. |
+| Is there a tracking method for user last login data? | Not consistently monitored. |
 
 ---
 
-## 🖼️ Screenshot Evidence
+## 🔍 Inactive Account Review Summary
 
-### 🔹 Pre-Remediation
-
-- Screenshot1 – User created in ADUC with no logon activity
-- Screenshot2 – Confirmed `lastLogonTimestamp` with PowerShell
-- Screenshot3 – Account details showing 400+ days inactive
-
-### 🔹 Post-Remediation
-
-- Screenshot4 – User account disabled
-- Screenshot5 – Audit trail or note added to user description
+| Audit Task | Evidence |
+|------------|----------|
+| Created test user in Active Directory | ![Screenshot 01](screenshots/01_ADUC_NewInactiveUser_Creation.png) |
+| Verified general account properties | ![Screenshot 02](screenshots/02_ADUC_UserAccount_Properties_GeneralTab.png) |
+| Labeled account as inactive with description | ![Screenshot 03](screenshots/03_ADUC_UserAccount_Properties_DescriptionField.png) |
+| Reviewed object tab details | ![Screenshot 04](screenshots/04_ADUC_UserAccount_ObjectTab.png) |
+| Inspected lastLogonTimestamp (over 400 days ago) | ![Screenshot 05](screenshots/05_ADUC_UserAccount_AttributeEditor_LastLogonTimestamp.png) |
+| Confirmed account is still enabled (violation) | ![Screenshot 06](screenshots/06_ADUC_UserAccount_EnabledStatus.png) |
+| Reviewed group membership (still active) | ![Screenshot 07](screenshots/07_ADUC_UserAccount_GroupMembership.png) |
+| Validated password last set date (inactive) | ![Screenshot 08](screenshots/08_ADUC_UserAccount_PasswordLastSet.png) |
 
 ---
 
 ## 🛠️ Remediation Plan
 
-The inactive account `InactiveUser01` has been disabled as of [Insert Date].
-
-Going forward:
-
-- AD scripts will flag accounts inactive for over 90 days
-- Review will be added to quarterly compliance checklist
-- All remediations logged in audit tracker
+- Disable or remove user accounts that have not logged in within the last 90 days.
+- Implement scheduled PowerShell scripts to audit `lastLogonTimestamp` monthly.
+- Add an automated task to alert on accounts exceeding inactivity thresholds.
+- Update the internal access review policy to align with PCI DSS 8.2.6.
 
 ---
 
-## ✅ Requirement Reference
+## ✅ Outcome
 
-**PCI DSS v4.0 – 8.2.6:** Inactive user accounts are either removed or disabled within 90 days of inactivity.
+This lab demonstrates an inactive user account that should have been disabled or removed per PCI DSS 8.2.6. Screenshots and findings reflect a real-world GRC process for compliance audits and remediation documentation.
+
 
 
