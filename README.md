@@ -1,68 +1,68 @@
-# PCI DSS 8.2.6 – Inactive User Account Audit Lab
+# PCI DSS Inactive User Audit (Requirement 8.2.6)
 
-This lab simulates a real-world PCI DSS 8.2.6 control validation for identifying inactive user accounts in Active Directory. It includes a mock interview, simulated findings with screenshot evidence, and a remediation plan.
+This audit simulates a PCI DSS 4.0.1 Requirement 8.2.6 control test to detect inactive user accounts in Active Directory (AD) that have not been used for over 90 days. The goal is to identify and remediate stale accounts that may pose a security risk.
 
----
+## 📋 Mock Interview Summary
 
-## 🧠 Mock Interview – Inactive User Accounts
-
-| Question | Response |
-|----------|----------|
-| How do you identify inactive users in Active Directory? | We audit the `lastLogonTimestamp` and check for accounts with no login activity in the past 90+ days. |
-| What tools do you use for this process? | Active Directory Users and Computers (ADUC), PowerShell, and audit documentation. |
-| What’s the purpose of this control? | To reduce security risk by disabling unused accounts which could be exploited. |
-| What’s your process once an inactive user is found? | Document, verify, notify stakeholders, disable the account, and implement remediation. |
-
----
-
-## 🔍 Simulated Audit Findings
-
-| Audit Task                                             | Evidence |
-|--------------------------------------------------------|----------|
-| Created test user in Active Directory                  | ![Screenshot 01](./01_PowerShell_Timestamp.png) |
-| Verified general account properties                    | ![Screenshot 02](./02_InactiveUser_Description_Edit.png) |
-| Labeled account as inactive with description           | ![Screenshot 03](./03_AD_Attribute_LastLogon_NotSet.png) |
-| Reviewed object tab details                            | ![Screenshot 04](./04_AD_Description_Set.png) |
-| Inspected lastLogonTimestamp (over 400 days ago)       | ![Screenshot 05](./05_AD_User_Visible.png) |
-| Confirmed account is still enabled (violation)         | ![Screenshot 06](./06_User_Disabled_Confirmation.png) |
-| Reviewed group membership (still active)               | ![Screenshot 07](./07_Group_Membership_Check.png) |
-| Validated password last set date (inactive)            | ![Screenshot 08](./08_Account_Disabled_Confirmation.png) |
+| Question | Answer |
+|----------|--------|
+| **What’s the PCI DSS requirement being tested?** | Requirement 8.2.6 — Remove/disable inactive user accounts within 90 days. |
+| **What was your audit scope?** | Windows Active Directory environment. Focused on a user account inactive for 400+ days. |
+| **What tool did you use to validate inactivity?** | Used PowerShell to simulate lastLogonTimestamp and reviewed AD attributes. |
+| **What AD attribute did you check?** | `lastLogonTimestamp` (converted to FileTime format). |
+| **What findings did you document?** | User account was still active, had not logged in for 400+ days. Password and group membership were still valid. |
+| **What action did you take?** | Account was labeled as inactive, validated, and disabled. |
+| **What’s the remediation if this is a real finding?** | Implement AD scripts or use IAM tools to automatically disable stale accounts every 90 days. |
 
 ---
 
-## ✅ Remediation Plan
+## 🖼 Screenshot Evidence
 
-1. **Disable Inactive Account:**
-   - Account was manually disabled after 400+ days of inactivity.
+### Screenshot 01 - Created Test User with Simulated Inactivity (400 Days Ago)
+![Screenshot 01](screenshots/01_PowerShell_Timestamp.png)
 
-2. **Documentation:**
-   - Description field updated with inactivity status and simulated date.
-   - Findings logged and retained for audit trail.
+### Screenshot 02 - General AD User Properties
+![Screenshot 02](screenshots/02_InactiveUser_Description_Edit.png)
 
-3. **Group Audit Follow-Up:**
-   - Membership reviewed; further cleanup planned to remove access.
+### Screenshot 03 - Account Labeled as Inactive (lastLogonTimestamp not set)
+![Screenshot 03](screenshots/03_AD_Attribute_LastLogon_NotSet.png)
 
-4. **Password Reset Enforcement:**
-   - A policy will be enforced to reset stale credentials if reactivated.
+### Screenshot 04 - Description Set for Inactive User
+![Screenshot 04](screenshots/04_AD_Description_Set.png)
 
-5. **Prevention Control:**
-   - Set up automated PowerShell scripts to detect future inactive accounts.
+### Screenshot 05 - User Visible in AD Tree
+![Screenshot 05](screenshots/05_AD_User_Visible.png)
 
----
+### Screenshot 06 - Account Still Enabled Before Remediation
+![Screenshot 06](screenshots/06_User_Disabled_Confirmation.png)
 
-## 📁 Lab Summary
+### Screenshot 07 - Group Membership Review
+![Screenshot 07](screenshots/07_Group_Membership_Check.png)
 
-- ✅ Simulated real-world inactive user
-- ✅ Used PowerShell to calculate timestamp for 400+ days
-- ✅ Labeled and documented account in ADUC
-- ✅ Collected screenshots for audit proof
-- ✅ Wrote and implemented remediation
+### Screenshot 08 - Account Disabled Confirmation
+![Screenshot 08](screenshots/08_Account_Disabled_Confirmation.png)
 
 ---
 
-**Built by:** [@trucktotech](https://github.com/agbolden)
+## ✅ Remediation Summary
+- Disabled user accounts inactive for 400+ days
+- Labeled accounts clearly in AD for auditing trail
+- All evidence stored in GitHub with visible screenshots
 
-**Lab Type:** PCI DSS 8.2.6 Compliance | Active Directory | Manual Audit | Screenshot Evidence
+---
+
+## 🧠 Lessons Learned
+> PCI auditors often request a review of `lastLogonTimestamp`. Your ability to simulate, detect, document, and remediate inactive accounts shows you're ready for GRC or IAM analyst responsibilities.
+
+---
+
+**Project by:** [@trucktotech](https://github.com/agbolden)
+
+**Requirement Reference:** [PCI DSS v4.0.1 - 8.2.6](https://docs.prismacloud.io/en/enterprise-edition/policy-compliance/pci-dss-v4-0-1)
+
+**License:** MIT
+
+
 
 
 
